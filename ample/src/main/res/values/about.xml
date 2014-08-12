@@ -1,0 +1,41 @@
+<!--
+  Copyright 2014 Siyuan Wang (easy0519@gmail.com)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  	http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<resources>
+	<string name="about_body"><![CDATA[
+		Disclaimer: This is not a part of official products of <a href="http://ample-cosplay.com"><i>Ample!</i></a>.<br/><br/>
+	
+		Simple muzei extension to display cosplay randomly from <a href="http://ample-cosplay.com"><i>Ample!</i></a> on your wallpaper.<br/><br/>
+		
+		<i>Ample for Muzei</i> is an open source project, you can find it on <a href="https://github.com/easy0519/muzei-ample">GitHub</a>.<br/><br/>
+
+		Copyright 2014 Siyuan Wang<br/>
+        All Rights Reserved.<br/><br/>
+
+        Many thanks to these open source projects:<br/><br/>
+
+        <a href="http://code.muzei.co/"><b>Muzei</b></a><br/> by <i>Roman Nurik</i>
+        <br/><br/>
+
+        <a href="http://jsoup.org/"><b>jsoup</b></a><br/> by <i>Jonathan Hedley</i>
+        <br/><br/>
+
+        <a href="http://square.github.io/okhttp/"><b>okhttp</b></a><br/> by <i>Square</i>
+        <br/><br/>
+
+	]]></string>
+	<string name="about_version_template">v%1$s</string>
+</resources>
+

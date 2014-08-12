@@ -1,0 +1,68 @@
+<!--
+  Copyright 2014 Siyuan Wang (easy0519@gmail.com)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  	http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<resources>
+	<!-- Main-->
+	<string name="settings_name">設定</string>
+	<string name="about_name">關於</string>
+	<!-- Actions-->
+    <string name="action_share">分享</string>
+    <string name="action_download">下載</string>
+	<string name="action_settings">設定</string>
+    <string name="action_open">開啟</string>
+	<string name="action_done">完成</string>
+	<!-- -->
+    <string name="shareTextContent">我的手機桌布是 \'%1$s\' by \'%2$s\'. \n透過 Ample for Muzei 分享. \n\n%3$s</string>
+    <string name="shareChooserTitle">分享 Ample cosplay</string>
+    <string name="imgDownloading">圖片下載中</string>
+    <string name="imgDownloaded">圖片下載完成</string>
+	<string name="imgDownloadFailed">圖片下載失敗</string>
+    <string name="noInternet">沒有可用的網路.</string>
+    <string name="noWifi">沒有可用的 WiFi 網路.</string>
+	<!-- Settings-->
+    <string name="settings_title_refresh">更新</string>
+	<string name="settings_refresh_interval">時間間隔</string>
+	<string name="settings_wifionly">僅限 WiFi</string>
+	<string name="settings_no_wifionly_summary">任何網路都可以更新</string>
+	<string name="settings_wifionly_summary">僅在 WiFi 網路更新</string>
+	<string name="settings_refresh_next">下次更新時間</string>
+	<!-- Refresh Interval-->
+	<string name="interval_never">永不</string>
+	<string name="interval_10m">每 10 分鐘</string>
+	<string name="interval_30m">每 30 分鐘</string>
+	<string name="interval_1h">每小時</string>
+	<string name="interval_2h">每 2 小時</string>
+	<string name="interval_3h">每 3 小時</string>
+	<string name="interval_4h">每 4 小時</string>
+	<string name="interval_5h">每 5 小時</string>
+	<string name="interval_6h">每 6 小時</string>
+	<string name="interval_7h">每 7 小時</string>
+	<string name="interval_8h">每 8 小時</string>
+	<string name="interval_9h">每 9 小時</string>
+	<string name="interval_10h">每 10 小時</string>
+	<string name="interval_11h">每 11 小時</string>
+	<string name="interval_12h">每 12 小時</string>
+	<string name="interval_1d">每天</string>
+	<string name="interval_2d">每 2 天</string>
+	<string name="interval_3d">每 3 天</string>
+	<string name="interval_4d">每 4 天</string>
+	<string name="interval_5d">每 5 天</string>
+	<string name="interval_6d">每 6 天</string>
+	<string name="interval_7d">每 7 天</string>
+	<string name="interval_14d">每 14 天</string>
+	<string name="interval_18d">每 18 天</string>
+	<string name="interval_30d">每 30 天</string>
+
+</resources>

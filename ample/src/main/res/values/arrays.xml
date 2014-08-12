@@ -1,0 +1,74 @@
+<!--
+  Copyright 2014 Siyuan Wang (easy0519@gmail.com)
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  	http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<resources>
+
+	<string-array name="settings_refresh_interval">
+		<item>@string/interval_never</item>
+		<item>@string/interval_10m</item>
+		<item>@string/interval_30m</item>
+		<item>@string/interval_1h</item>
+		<item>@string/interval_2h</item>
+		<item>@string/interval_3h</item>
+		<item>@string/interval_4h</item>
+		<item>@string/interval_5h</item>
+		<item>@string/interval_6h</item>
+		<item>@string/interval_7h</item>
+		<item>@string/interval_8h</item>
+		<item>@string/interval_9h</item>
+		<item>@string/interval_10h</item>
+		<item>@string/interval_11h</item>
+		<item>@string/interval_12h</item>
+		<item>@string/interval_1d</item>
+		<item>@string/interval_2d</item>
+		<item>@string/interval_3d</item>
+		<item>@string/interval_4d</item>
+		<item>@string/interval_5d</item>
+		<item>@string/interval_6d</item>
+		<item>@string/interval_7d</item>
+		<item>@string/interval_14d</item>
+		<item>@string/interval_18d</item>
+		<item>@string/interval_30d</item>
+	</string-array>
+
+	<string-array name="settings_refresh_interval_values">
+		<item>-1</item>
+		<item>600000</item>
+		<item>1800000</item>
+		<item>3600000</item>
+		<item>7200000</item>
+		<item>10800000</item>
+		<item>14400000</item>
+		<item>18000000</item>
+		<item>21600000</item>
+		<item>25200000</item>
+		<item>28800000</item>
+		<item>32400000</item>
+		<item>36000000</item>
+		<item>39600000</item>
+		<item>43200000</item>
+		<item>86400000</item>
+		<item>172800000</item>
+		<item>259200000</item>
+		<item>345600000</item>
+		<item>432000000</item>
+		<item>518400000</item>
+		<item>604800000</item>
+		<item>1209600000</item>
+		<item>1555200000</item>
+		<item>2592000000</item>
+	</string-array>
+
+</resources>
