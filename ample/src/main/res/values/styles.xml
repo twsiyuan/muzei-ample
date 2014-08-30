@@ -31,6 +31,9 @@
 		<item name="android:actionBarStyle">@style/about.actionbar</item>
 	</style>
 
+	<style name="dialog_title" parent="android:TextAppearance.Holo.DialogWindowTitle">
+	</style>
+
 	<style name="about.actionbar" parent="android:Widget.Holo.ActionBar">
 		<item name="android:displayOptions">showHome|useLogo|showTitle|homeAsUp</item>
 	</style>

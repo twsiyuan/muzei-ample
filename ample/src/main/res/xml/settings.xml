@@ -18,28 +18,51 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-            android:title="@string/settings_title_refresh">
+            android:title="@string/settings_title_refresh"
+			android:persistent="false">
 
 		<com.siyuan.preference.SummaryListPreference
 			android:key="@string/prefs_refresh_interval"
 			android:title="@string/settings_refresh_interval"
 			android:entries="@array/settings_refresh_interval"
 			android:entryValues="@array/settings_refresh_interval_values"
-			android:defaultValue="@string/prefs_refresh_interval_default"/>
+			android:defaultValue="@integer/prefs_refresh_interval_default"/>
 
 	    <com.siyuan.preference.SummaryCheckBoxPreference
                 android:key="@string/prefs_wifionly"
                 android:title="@string/settings_wifionly"
                 trueSummary="@string/settings_wifionly_summary"
                 falseSummary="@string/settings_no_wifionly_summary"
-		        android:defaultValue="@string/prefs_wifionly_default" />
+		        android:defaultValue="@bool/prefs_wifionly_default"/>
 
 		<Preference
 			android:key="@string/prefs_refresh_next"
 			android:selectable="false"
 			android:title="@string/settings_refresh_next"
-			android:summary=""/>
+			android:summary=""
+			android:persistent="false"/>
 
     </PreferenceCategory>
+
+	<PreferenceCategory
+		android:title="@string/settings_title_source"
+		android:persistent="false">
+
+		<com.siyuan.preference.SummaryListPreference
+			android:key="@string/prefs_source_from"
+			android:title="@string/settings_source_from"
+			android:entries="@array/settings_source_from"
+			android:entryValues="@array/settings_source_from_values"
+			android:defaultValue="@integer/prefs_source_from_default"/>
+
+		<Preference
+			android:key="@string/prefs_filters"
+			android:persistent="false"
+			android:title="@string/settings_filters">
+			<intent android:action=".settings.AmpleFiltersActivity"/>
+		</Preference>
+
+	</PreferenceCategory>
+
 
 </PreferenceScreen>

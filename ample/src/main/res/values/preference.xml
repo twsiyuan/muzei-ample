@@ -16,8 +16,27 @@
 <resources>
 	<!--DO NOT CHANGE IT-->
 	<string name="prefs_wifionly">wifionly</string>
-	<string name="prefs_wifionly_default">false</string>
+	<bool name="prefs_wifionly_default">false</bool>
 	<string name="prefs_refresh_interval">refresh_interval</string>
-	<string name="prefs_refresh_interval_default">86400000</string>
+	<integer name="prefs_refresh_interval_default">86400000</integer>
 	<string name="prefs_refresh_next">refresh_next</string>
+	<string name="prefs_source_from">source</string>
+	<integer name="prefs_source_from_default">1</integer>
+
+	<string name="prefs_filters">filters</string>
+
+	<string name="prefs_filter_color">filter_color</string>
+	<string name="prefs_filter_color_entry">filter_color_entry</string>
+	<string name="prefs_filter_color_default"></string>
+
+	<string name="prefs_filter_locale">filter_locale</string>
+	<string name="prefs_filter_locale_entry">filter_locale_entry</string>
+	<string name="prefs_filter_locale_default"></string>
+
+	<string name="prefs_filter_series">filter_series</string>
+	<string name="prefs_filter_series_entry">filter_series_entry</string>
+	<string name="prefs_filter_series_default"></string>
+
+	<string name="prefs_filter_clear">filter_clear</string>
+
 </resources>

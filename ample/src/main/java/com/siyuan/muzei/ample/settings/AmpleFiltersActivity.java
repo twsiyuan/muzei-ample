@@ -16,54 +16,32 @@
 
 package com.siyuan.muzei.ample.settings;
 
-import android.content.Intent;
 import android.os.Bundle;
-
 import android.support.v4.app.FragmentActivity;
-
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.siyuan.muzei.ample.R;
 
-/**
- * Settings Activity
- */
-public class AmpleSettingsActivity extends FragmentActivity {
 
-	static final int FITLERS_REQUEST_CODE = 998521;
-	AmpleSettingsFragment mFragment;
+/**
+ * Source Filters Activity
+ */
+public class AmpleFiltersActivity extends FragmentActivity {
+
+	AmpleFiltersFragment mFragment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getFragmentManager().beginTransaction().add( android.R.id.content, mFragment = new AmpleSettingsFragment()).commit();
-
-		setupActionBar();
-	}
-
-	void setupActionBar(){
-		getActionBar().getCustomView().findViewById(R.id.action_done).setOnClickListener(
-				new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						finish();
-					}
-				});
+		getFragmentManager().beginTransaction().add( android.R.id.content, mFragment = new AmpleFiltersFragment()).commit();
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu){
 		super.onCreateOptionsMenu( menu );
-		getMenuInflater().inflate( R.menu.settings_options, menu );
+		getMenuInflater().inflate( R.menu.filters_options, menu );
 		return true;
-	}
-
-	@Override
-	protected void onStart(){
-		super.onStart();
-		mFragment.refresh();
 	}
 
 	@Override
@@ -72,18 +50,15 @@ public class AmpleSettingsActivity extends FragmentActivity {
 			case android.R.id.home:
 				finish();
 				return true;
-			case R.id.action_about:
-				onAboutMenuItemPressed(item);
+			case R.id.action_refresh:
+				refreshFilters();
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void onAboutMenuItemPressed(final MenuItem item){
-		startActivity(new Intent()
-				.setClass(getApplicationContext(), AmpleAboutActivity.class)
-		);
+	private void refreshFilters(){
+		mFragment.refreshFilters();
 	}
-
 
 }

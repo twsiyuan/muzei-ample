@@ -5,9 +5,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 
 public class SummaryListPreference extends ListPreference {
-	public SummaryListPreference(final Context context) {
-		this(context, null);
-	}
 
 	public SummaryListPreference(final Context context, final AttributeSet attrs) {
 		super(context, attrs);

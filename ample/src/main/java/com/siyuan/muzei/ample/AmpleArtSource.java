@@ -31,6 +31,7 @@ import com.google.android.apps.muzei.api.Artwork;
 import com.google.android.apps.muzei.api.MuzeiArtSource;
 import com.google.android.apps.muzei.api.RemoteMuzeiArtSourceEx;
 import com.google.android.apps.muzei.api.UserCommand;
+import com.siyuan.muzei.ample.settings.AmpleSettingsActivity;
 
 import java.io.IOException;
 import java.util.List;
@@ -91,13 +92,16 @@ public class AmpleArtSource extends RemoteMuzeiArtSourceEx {
 		AmpleService.ImageData nextImage;
 		try {
 
-			final AmpleService.Thumbnail nextThumbnail = getNextThumbnail();
-			nextImage = getNextImage( nextThumbnail );
+			nextImage = getNextImage( getNextThumbnail(
+					AmpleSettings.getSourceFrom( this ),
+					AmpleSettings.getFilterArgs( this )) );
 
 		}catch ( IOException e ){
 			throw new RetryException();
 		}catch ( NoImageException e ){
 			Log.w(TAG, "No images returned.");
+			if( reason == UPDATE_REASON_USER_NEXT )
+				showToast( getString( R.string.noImages ) ,Toast.LENGTH_SHORT );
 			reschdule();
 			return;
 		}
@@ -119,21 +123,21 @@ public class AmpleArtSource extends RemoteMuzeiArtSourceEx {
 		reschdule();
 	}
 
-	private AmpleService.Thumbnail getNextThumbnail() throws IOException, NoImageException{
+	private AmpleService.Thumbnail getNextThumbnail( final int source, final String args ) throws IOException, NoImageException{
 
 		final Random random = new Random();
-		int maxPages = AmpleSettings.getTopPages(this) + 1;
+		final int countPerPage = source == AmpleService.THUMBNAIL_SOURCE_NEWEST? AmpleService.THUMBNAIL_NEWEST_LIST_COUNT : AmpleService.THUMBNAIL_CONTENT_LIST_COUNT;
+		int maxPageCount = (int)Math.ceil( AmpleSettings.getTopCosplays(this) / countPerPage);
 		List<AmpleService.Thumbnail> thumbnails;
 
-		// Get thumbnails from a random page
+		// Get thumbnails from random page
 		while( true ) {
-
-			final int currentPage = random.nextInt( maxPages ) + 1;	// index start with 1
-			thumbnails = mService.getThumbnails(currentPage);
+			final int currentPage = random.nextInt( maxPageCount + 1 );
+			thumbnails = mService.getThumbnails( currentPage, source, args );  // index start with 0
 
 			if (thumbnails.size() <= 0) {
-				maxPages = currentPage;
-				if (currentPage <= 1)
+				maxPageCount = currentPage - 1;
+				if (currentPage <= 0)
 					throw new NoImageException();
 			}else {
 				break;
@@ -156,25 +160,21 @@ public class AmpleArtSource extends RemoteMuzeiArtSourceEx {
 		return result;
 	}
 
-	private AmpleService.ImageData getNextImage( AmpleService.Thumbnail thumb ) throws RetryException{
-		AmpleService.ImageData result;
-		try {
-			result = mService.getImageData( thumb );
-		}catch (IOException e){
-			Log.e(TAG, e.getMessage());
-			throw new RetryException();
-		}
-		return result;
+	private AmpleService.ImageData getNextImage( AmpleService.Thumbnail thumb ) throws IOException{
+		return mService.getImageData( thumb );
 	}
 
 	private static final int COMMAND_ID_SHARE = MAX_CUSTOM_COMMAND_ID;
 	private static final int COMMAND_ID_DOWNLOAD = MAX_CUSTOM_COMMAND_ID - 1;
+	private static final int COMMAND_ID_SETTINGS = MAX_CUSTOM_COMMAND_ID - 2;
+
 
 	private void manageUserCommands( ){
 		List<UserCommand> commands = new ArrayList<UserCommand>();
 		commands.add(new UserCommand(BUILTIN_COMMAND_ID_NEXT_ARTWORK, ""));
 		commands.add(new UserCommand(COMMAND_ID_SHARE, getString(R.string.action_share)));
 		commands.add(new UserCommand(COMMAND_ID_DOWNLOAD, getString(R.string.action_download)));
+		commands.add(new UserCommand(COMMAND_ID_SETTINGS, getString(R.string.action_settings)));
 		setUserCommands(commands);
 	}
 
@@ -203,6 +203,12 @@ public class AmpleArtSource extends RemoteMuzeiArtSourceEx {
 						makeDownload( characterDescription, userName, imageUri );
 				}
 				break;
+			case COMMAND_ID_SETTINGS:
+
+				Intent intent = new Intent(this.getApplication(), AmpleSettingsActivity.class);
+				intent.setFlags( Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_USER_ACTION );
+				startActivity( intent );
+				break;
 		}
 	}
 
@@ -212,7 +218,7 @@ public class AmpleArtSource extends RemoteMuzeiArtSourceEx {
 		fileName = fileName.substring( fileName.lastIndexOf( "/" )+1 );
 
 		DownloadManager.Request request = new DownloadManager.Request( imageUri )
-			.setDestinationInExternalPublicDir( Environment.DIRECTORY_DOWNLOADS, fileName)
+			.setDestinationInExternalPublicDir( Environment.DIRECTORY_DOWNLOADS + "/Ample/", fileName)
 			.setTitle( getString( R.string.imgDownloading ) )
 			.setDescription( userName )
 			.setNotificationVisibility( DownloadManager.Request.VISIBILITY_VISIBLE )

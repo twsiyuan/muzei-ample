@@ -48,15 +48,25 @@
 		    android:name=".settings.AmpleSettingsActivity"
 		    android:label="@string/settings_name"
 		    android:theme="@style/settings"
+			android:excludeFromRecents="true"
 		    android:exported="true">
 	    </activity>
 
 		<activity
 			android:name=".settings.AmpleAboutActivity"
 			android:label="@string/about_name"
-			android:theme="@style/about"
-			android:exported="true">
+			android:theme="@style/about">
 		</activity>
+
+	    <activity
+		    android:name=".settings.AmpleFiltersActivity"
+		    android:label="@string/settings_filters"
+		    android:theme="@style/about">
+		    <intent-filter>
+			    <action android:name=".settings.AmpleFiltersActivity" />
+			    <category android:name="android.intent.category.DEFAULT" />
+		    </intent-filter>
+	    </activity>
 
 	</application>
 

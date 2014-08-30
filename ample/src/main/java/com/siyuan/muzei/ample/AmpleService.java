@@ -22,24 +22,12 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpEntity;
-import org.apache.http.StatusLine;
-import org.apache.http.client.*;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 
-
-import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -50,7 +38,25 @@ import java.util.regex.Pattern;
  */
 public class AmpleService {
 
+	public static final int THUMBNAIL_SOURCE_CONTENT = 0;
+	public static final int THUMBNAIL_SOURCE_NEWEST = 1;
+
+	public static final int THUMBNAIL_CONTENT_LIST_COUNT = 20;	// Approximate value
+	public static final int THUMBNAIL_NEWEST_LIST_COUNT = 40;
+
+	public static final String BASE_URI = "http://ample-cosplay.com";
+
 	private static final String TAG = "AmpleService";
+
+	private static final String PAGE_URI = "/detail/?code=";
+	private static final String THUMBNAIL_URI = "/file/pic_top_thum/";
+	private static final String IMAGE_URI = "/file/pic/";
+
+	private static final String THUMBNAIL_CONTENT_LIST_URI = "/js/getPhotoMore.php?p=";
+	private static final String THUMBNAIL_NEWEST_LIST_URI = "/js/getThumMore.php?p=";
+
+	private static final Pattern PAGECODE_PATTERN = Pattern.compile( "code\\s?\\=\\s?\\\"?([^\\\"\\&]+)" );
+	private static final List<Thumbnail> EMPTY_LIST = new ArrayList<Thumbnail>( 0 );
 
 	public class Thumbnail{
 		public Thumbnail( final String code ) {
@@ -82,39 +88,37 @@ public class AmpleService {
 		}
 	}
 
-	public static final String BASE_URI = "http://ample-cosplay.com";
-
-	private static final String PAGE_URI = "/detail/?code=";
-	private static final String THUMBNAIL_URI = "/file/pic_top_thum/";
-	private static final String IMAGE_URI = "/file/pic/";
-
-	private static final String THUMBNAIL_LIST_URI = "/js/getPhotoMore.php?p=";
-
-	private final Pattern pageCodePattern = Pattern.compile("alt\\=\\\"([^\\\"]+)\\\"");
-	private final Pattern imageCodePattern = Pattern.compile("\\/([^.\\/]+)(.\\w+$)");
-
 	public List<Thumbnail> getThumbnails( ) throws IOException {
-		return getThumbnails( 1 );
+		return getThumbnails( 1, THUMBNAIL_SOURCE_CONTENT );
 	}
 
-	public List< Thumbnail > getThumbnails( int page ) throws IOException {
+	public List<Thumbnail> getThumbnails( final int page ) throws IOException {
+		return getThumbnails( page, THUMBNAIL_SOURCE_NEWEST );
+	}
 
-		long timeStamp = System.currentTimeMillis();
+	public List< Thumbnail > getThumbnails( final int page, final int source ) throws IOException {
+		return getThumbnails( page, source, "" );
+	}
 
-		List<Thumbnail> result = new ArrayList<Thumbnail>();
-		String html = loadHTML(BASE_URI + THUMBNAIL_LIST_URI + page);
+	public List< Thumbnail > getThumbnails( final int page, final int source, final String args ) throws IOException {
+		List<Thumbnail> result = EMPTY_LIST;
+		final long timeStamp = System.currentTimeMillis();
+		final String url = getThumbnailsListURL( page + 1, source ) + "&" + args;
+		final String html = loadHTML( url ).trim();
+		final long timeStamp2 = System.currentTimeMillis();
 
-		long timeStamp2 = System.currentTimeMillis();
+		if( html.length() > 0 ) {
 
-		if( html.trim().length() > 0 ) {
+			result = new ArrayList<Thumbnail>();
 
 			// Parse for all thumbnail code
-			Matcher pageCodeMatcher = pageCodePattern.matcher(html);
+			final Matcher pageCodeMatcher = PAGECODE_PATTERN.matcher(html);
 			while (pageCodeMatcher.find()) {
-				String code = pageCodeMatcher.group(1);
-
-				result.add(new Thumbnail(code));
+				result.add( new Thumbnail(
+						pageCodeMatcher.group(1)
+				));
 			}
+
 		}
 
 		if( BuildConfig.DEBUG ){
@@ -203,6 +207,14 @@ public class AmpleService {
 		}
 
 		return result;
+	}
+
+	private String getThumbnailsListURL( int page, int source ){
+		return BASE_URI +
+				(( source == THUMBNAIL_SOURCE_NEWEST )?
+						THUMBNAIL_NEWEST_LIST_URI :
+						THUMBNAIL_CONTENT_LIST_URI)
+				+ page;
 	}
 
 	private String getElementText(Elements elements, String query, String defaultValue){

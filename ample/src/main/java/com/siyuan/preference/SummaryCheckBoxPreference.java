@@ -5,9 +5,6 @@ import android.preference.CheckBoxPreference;
 import android.util.AttributeSet;
 
 public class SummaryCheckBoxPreference extends CheckBoxPreference {
-	public SummaryCheckBoxPreference(final Context context) {
-		this(context, null);
-	}
 
 	public SummaryCheckBoxPreference(final Context context, final AttributeSet attrs) {
 		super(context, attrs);

@@ -15,6 +15,16 @@
 -->
 <resources>
 
+	<string-array name="settings_source_from">
+		<item>@string/source_from_main</item>
+		<item>@string/source_from_newest</item>
+	</string-array>
+
+	<string-array name="settings_source_from_values">
+		<item>0</item>
+		<item>1</item>
+	</string-array>
+
 	<string-array name="settings_refresh_interval">
 		<item>@string/interval_never</item>
 		<item>@string/interval_10m</item>
