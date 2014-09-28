@@ -40,4 +40,12 @@ Changelog
 
 Released on August 12, 2014. Initial release.
 
+### Version 1.1.0
 
+1. Add custom content filters
+2. Change download folder to Downloads/Ample
+3. Add settings item in Muzei menu
+
+### Version 1.1.1
+
+Add user and keyword filters

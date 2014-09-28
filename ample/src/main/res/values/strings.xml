@@ -17,7 +17,7 @@
 	<!-- Main-->
     <string name="app_name">Muzei-Ample</string>
     <string name="source_name">Ample</string>
-    <string name="source_description">Cosplays from Ample!</string>
+    <string name="source_description">Cosplays from Ample-cosplay!</string>
 	<string name="settings_name">Settings</string>
 	<string name="about_name">About</string>
 	<!-- Actions-->
@@ -28,6 +28,7 @@
     <string name="action_open">Open</string>
 	<string name="action_done">Done</string>
 	<string name="action_refresh">Refresh</string>
+	<string name="action_clear_filters">Clear filters</string>
 
 	<!-- -->
     <string name="shareTextContent">My Android wallpaper is \'%1$s\' by \'%2$s\'. \nShared with Ample for Muzei. \n\n%3$s</string>
@@ -58,7 +59,7 @@
 	<string name="settings_filter_color">Color</string>
 	<string name="settings_filter_locale">Locale</string>
 	<string name="settings_filter_series">Series</string>
-	<string name="settings_filter_cosplayer">Cosplayer</string>
+	<string name="settings_filter_user">User</string>
 	<string name="settings_filter_keyword">Keyword</string>
 	<string name="settings_filter_clear">Clear filters</string>
 	<string name="settings_filter_clear_summary">Clear all filter settings</string>
@@ -67,7 +68,9 @@
 	<!--Refresh interval-->
 	<string name="interval_never">Never</string>
 	<string name="interval_10m">Every 10 minutes</string>
+	<string name="interval_15m">Every 15 minutes</string>
 	<string name="interval_30m">Every 30 minutes</string>
+	<string name="interval_45m">Every 45 minutes</string>
 	<string name="interval_1h">Every hour</string>
 	<string name="interval_2h">Every 2 hours</string>
 	<string name="interval_3h">Every 3 hours</string>

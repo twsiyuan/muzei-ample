@@ -18,23 +18,34 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-	<com.siyuan.muzei.ample.settings.EntryListPreference
+	<com.siyuan.muzei.ample.settings.preference.EntryListPreference
 		android:key="@string/prefs_filter_color"
 		entryKey="@string/prefs_filter_color_entry"
 		android:title="@string/settings_filter_color"
 		android:defaultValue="@string/prefs_filter_color_default"
 		android:dependency=""/>
 
-	<com.siyuan.muzei.ample.settings.EntryListPreference
+	<com.siyuan.muzei.ample.settings.preference.EntryListPreference
 		android:key="@string/prefs_filter_locale"
 		entryKey="@string/prefs_filter_locale_entry"
 		android:title="@string/settings_filter_locale"
 		android:defaultValue="@string/prefs_filter_locale_default"/>
 
-	<com.siyuan.muzei.ample.settings.SeriesPreference
+	<com.siyuan.muzei.ample.settings.preference.SeriesPreference
 		android:key="@string/prefs_filter_series"
 		entryKey="@string/prefs_filter_series_entry"
 		android:title="@string/settings_filter_series"
 		android:defaultValue="@string/prefs_filter_series_default"/>
+
+	<com.siyuan.muzei.ample.settings.preference.EntryListPreference
+		android:key="@string/prefs_filter_user"
+		entryKey="@string/prefs_filter_user_entry"
+		android:title="@string/settings_filter_user"
+		android:defaultValue="@string/prefs_filter_user_default"/>
+
+	<com.siyuan.muzei.ample.settings.preference.KeywordEditTextPreference
+		android:key="@string/prefs_filter_keyword"
+		android:title="@string/settings_filter_keyword"
+		/>
 
 </PreferenceScreen>

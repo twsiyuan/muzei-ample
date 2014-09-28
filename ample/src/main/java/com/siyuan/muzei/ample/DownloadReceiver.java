@@ -34,7 +34,7 @@ import java.io.IOException;
 /**
  *
  */
-public class AmpleDownloadReceiver extends BroadcastReceiver {
+public class DownloadReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {

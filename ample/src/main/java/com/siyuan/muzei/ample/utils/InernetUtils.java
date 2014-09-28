@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.siyuan.muzei.ample;
+package com.siyuan.muzei.ample.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -26,15 +26,7 @@ import java.util.Date;
 /**
  * Utils
  */
-public class Utils {
-
-	private static final String PREF_SCHEDULED_UPDATE_TIME_MILLIS = "scheduled_update_time_millis";
-
-	public static Date getNextRefreshTime( Context context ){
-		final long scheduled_refresh = AmpleArtSource.getSharedPreferences( context ).getLong(
-				PREF_SCHEDULED_UPDATE_TIME_MILLIS, System.currentTimeMillis() );
-		return new Date( scheduled_refresh );
-	}
+public class InernetUtils {
 
 	public static boolean isNetworkAvailable(final Context context){
 		if ( context != null ) {

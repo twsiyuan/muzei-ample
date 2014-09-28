@@ -28,7 +28,9 @@
 	<string-array name="settings_refresh_interval">
 		<item>@string/interval_never</item>
 		<item>@string/interval_10m</item>
+		<item>@string/interval_15m</item>
 		<item>@string/interval_30m</item>
+		<item>@string/interval_45m</item>
 		<item>@string/interval_1h</item>
 		<item>@string/interval_2h</item>
 		<item>@string/interval_3h</item>
@@ -56,7 +58,9 @@
 	<string-array name="settings_refresh_interval_values">
 		<item>-1</item>
 		<item>600000</item>
+		<item>900000</item>
 		<item>1800000</item>
+		<item>2700000</item>
 		<item>3600000</item>
 		<item>7200000</item>
 		<item>10800000</item>

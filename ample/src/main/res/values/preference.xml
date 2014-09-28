@@ -15,13 +15,19 @@
 -->
 <resources>
 	<!--DO NOT CHANGE IT-->
+	<string name="prefs_current_artwork">current_artwork</string>
+	<string name="prefs_query_thumbnails_args">query_thumbnails_args</string>
+	<string name="prefs_query_thumbnails_max_page">query_thumbnails_max_page</string>
+	<string name="prefs_users_recently">users_recently</string>
+
+
 	<string name="prefs_wifionly">wifionly</string>
 	<bool name="prefs_wifionly_default">false</bool>
 	<string name="prefs_refresh_interval">refresh_interval</string>
 	<integer name="prefs_refresh_interval_default">86400000</integer>
 	<string name="prefs_refresh_next">refresh_next</string>
 	<string name="prefs_source_from">source</string>
-	<integer name="prefs_source_from_default">1</integer>
+	<integer name="prefs_source_from_default">0</integer>
 
 	<string name="prefs_filters">filters</string>
 
@@ -37,6 +43,12 @@
 	<string name="prefs_filter_series_entry">filter_series_entry</string>
 	<string name="prefs_filter_series_default"></string>
 
-	<string name="prefs_filter_clear">filter_clear</string>
+	<string name="prefs_filter_user">filter_user</string>
+	<string name="prefs_filter_user_entry">filter_user_entry</string>
+	<string name="prefs_filter_user_default"></string>
+
+	<string name="prefs_filter_keyword">filter_keyword</string>
+	<string name="prefs_filter_keyword_default"></string>
+
 
 </resources>

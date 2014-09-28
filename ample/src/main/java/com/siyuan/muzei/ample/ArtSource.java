@@ -31,7 +31,9 @@ import com.google.android.apps.muzei.api.Artwork;
 import com.google.android.apps.muzei.api.MuzeiArtSource;
 import com.google.android.apps.muzei.api.RemoteMuzeiArtSourceEx;
 import com.google.android.apps.muzei.api.UserCommand;
-import com.siyuan.muzei.ample.settings.AmpleSettingsActivity;
+import com.siyuan.muzei.ample.data.DataService;
+import com.siyuan.muzei.ample.settings.MainSettingsActivity;
+import com.siyuan.muzei.ample.utils.PreferenceUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class AmpleArtSource extends RemoteMuzeiArtSourceEx {
+public class ArtSource extends RemoteMuzeiArtSourceEx {
 
 	public static SharedPreferences getSharedPreferences(Context context) {
 		return MuzeiArtSource.getSharedPreferences( context, SOURCE_NAME );
@@ -47,9 +49,9 @@ public class AmpleArtSource extends RemoteMuzeiArtSourceEx {
 
 	private static final String SOURCE_NAME = "AmpleArtSource";
 	private static final String TAG = "Ample";
-	private static final AmpleService mService = new AmpleService();
+	private static final DataService mService = new DataService();
 
-	public AmpleArtSource() {
+	public ArtSource() {
 		super(SOURCE_NAME);
 	}
 
@@ -57,7 +59,11 @@ public class AmpleArtSource extends RemoteMuzeiArtSourceEx {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		setDescription(getString(R.string.source_description));
+		if(BuildConfig.DEBUG) {
+			setDescription(getString(R.string.source_description));
+		}else {
+			setDescription(getString(R.string.source_description) + " Debug Version");
+		}
 		manageUserCommands();
 	}
 
@@ -89,12 +95,12 @@ public class AmpleArtSource extends RemoteMuzeiArtSourceEx {
 	protected void onTryUpdate(int reason) throws RetryException {
 
 		// Get next
-		AmpleService.ImageData nextImage;
+		DataService.ImageData nextImage;
 		try {
 
 			nextImage = getNextImage( getNextThumbnail(
-					AmpleSettings.getSourceFrom( this ),
-					AmpleSettings.getFilterArgs( this )) );
+					PreferenceUtils.getSourceFrom(this),
+					PreferenceUtils.getFilterArgs(this)) );
 
 		}catch ( IOException e ){
 			throw new RetryException();
@@ -106,61 +112,99 @@ public class AmpleArtSource extends RemoteMuzeiArtSourceEx {
 			return;
 		}
 
+		// Record
+		updateUsers(nextImage);
+		updateCurrentArtwork( nextImage );
+
 		// Build
 		publishArtwork(new Artwork.Builder()
-				.title( nextImage.userName )
-				.byline( nextImage.getDescription() )
-				.imageUri( Uri.parse( AmpleService.BASE_URI + nextImage.imageUri ) )
-				.token( nextImage.code )
-				.viewIntent(
-						new Intent(
-							Intent.ACTION_VIEW,
-							Uri.parse( AmpleService.BASE_URI + nextImage.pageUri )
+						.title(nextImage.userName)
+						.byline(nextImage.getDescription())
+						.imageUri(Uri.parse(DataService.BASE_URI + nextImage.imageUri))
+						.token(nextImage.code)
+						.viewIntent(
+								new Intent(
+										Intent.ACTION_VIEW,
+										Uri.parse(DataService.BASE_URI + nextImage.pageUri)
+								)
 						)
-				)
-				.build()
+						.build()
 		);
 		reschdule();
 	}
 
-	private AmpleService.Thumbnail getNextThumbnail( final int source, final String args ) throws IOException, NoImageException{
+	private void updateUsers(DataService.ImageData image){
 
+		String display = image.userName.trim();
+		String value = image.userNameArgs;
+		if( image.locale.length() > 0 )
+			display += " (" + image.locale + ")";
+
+		PreferenceUtils.updateRecentUsers(this, display, value);
+	}
+
+	private void updateCurrentArtwork( DataService.ImageData image ){
+		PreferenceUtils.setCurrentArtworkData(this, image);
+	}
+
+	private DataService.Thumbnail getNextThumbnail( final int source, final String args ) throws IOException, NoImageException{
+		final String currentArgsEncode = "s" + source + "," + args;
 		final Random random = new Random();
-		final int countPerPage = source == AmpleService.THUMBNAIL_SOURCE_NEWEST? AmpleService.THUMBNAIL_NEWEST_LIST_COUNT : AmpleService.THUMBNAIL_CONTENT_LIST_COUNT;
-		int maxPageCount = (int)Math.ceil( AmpleSettings.getTopCosplays(this) / countPerPage);
-		List<AmpleService.Thumbnail> thumbnails;
+		final int countPerPage = source == DataService.THUMBNAIL_SOURCE_NEWEST? DataService.THUMBNAIL_NEWEST_LIST_COUNT : DataService.THUMBNAIL_CONTENT_LIST_COUNT;
+		int maxPageCount = (int)Math.ceil( PreferenceUtils.getTopCosplays(this) / countPerPage);
+
+		if( PreferenceUtils.getLastQueryThumbnailsArgs( this ).equals( currentArgsEncode ) ){
+			maxPageCount = Math.min( maxPageCount, PreferenceUtils.getLastQueryThumbnailsMaxPageCount( this ) );
+		}
+		List<DataService.Thumbnail> thumbnails = null;
 
 		// Get thumbnails from random page
+		boolean anyImages = true;
 		while( true ) {
-			final int currentPage = random.nextInt( maxPageCount + 1 );
-			thumbnails = mService.getThumbnails( currentPage, source, args );  // index start with 0
+			if( maxPageCount <= 0 ) {
+				anyImages = false;
+				break;
+			}
+
+			final int currentPage = random.nextInt( maxPageCount );
+			thumbnails = mService.getThumbnails( currentPage, source, args );  // currentPage, index start with 0
 
 			if (thumbnails.size() <= 0) {
-				maxPageCount = currentPage - 1;
-				if (currentPage <= 0)
-					throw new NoImageException();
+				maxPageCount = currentPage;
+				if (currentPage <= 0) {
+					anyImages = false;
+					break;
+				}
 			}else {
 				break;
 			}
 		}
+		// Save, for speed up
+		PreferenceUtils.setLastQueryThumbnailsArgs( this, currentArgsEncode );
+		PreferenceUtils.setLastQueryThumbnailsMaxPageCount( this, maxPageCount );
 
-		// Get random result from thumbnails
-		AmpleService.Thumbnail result;
-		final String currentToken = (getCurrentArtwork() != null) ? getCurrentArtwork().getToken() : null;
+		if( !anyImages ){
+			// No images
+			throw new NoImageException();
+		}else {
+			// Get random result from thumbnails
+			DataService.Thumbnail result;
+			final String currentToken = (getCurrentArtwork() != null) ? getCurrentArtwork().getToken() : null;
 
-		while (true) {
-			final int nextIndex = random.nextInt( thumbnails.size() );
-			result = thumbnails.get( nextIndex );
-			final String nextToken = result.code;
-			if (!nextToken.equals( currentToken ) || thumbnails.size() == 1 ) {
-				break;
+			while (true) {
+				final int nextIndex = random.nextInt(thumbnails.size());
+				result = thumbnails.get(nextIndex);
+				final String nextToken = result.code;
+				if (!nextToken.equals(currentToken) || thumbnails.size() == 1) {
+					break;
+				}
 			}
-		}
 
-		return result;
+			return result;
+		}
 	}
 
-	private AmpleService.ImageData getNextImage( AmpleService.Thumbnail thumb ) throws IOException{
+	private DataService.ImageData getNextImage( DataService.Thumbnail thumb ) throws IOException{
 		return mService.getImageData( thumb );
 	}
 
@@ -180,7 +224,7 @@ public class AmpleArtSource extends RemoteMuzeiArtSourceEx {
 
 	@Override
 	protected boolean isUpdateWifiOnly(){
-		return AmpleSettings.getWifiOnly( this );
+		return PreferenceUtils.getWifiOnly(this);
 	}
 
 	@Override
@@ -205,7 +249,7 @@ public class AmpleArtSource extends RemoteMuzeiArtSourceEx {
 				break;
 			case COMMAND_ID_SETTINGS:
 
-				Intent intent = new Intent(this.getApplication(), AmpleSettingsActivity.class);
+				Intent intent = new Intent(this.getApplication(), MainSettingsActivity.class);
 				intent.setFlags( Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_USER_ACTION );
 				startActivity( intent );
 				break;
@@ -259,7 +303,7 @@ public class AmpleArtSource extends RemoteMuzeiArtSourceEx {
 
 
 	private void reschdule(){
-		final long interval = AmpleSettings.getRefreshInterval(this);
+		final long interval = PreferenceUtils.getRefreshInterval(this);
 
 		if( interval > 0 )
 			scheduleUpdate(System.currentTimeMillis() + interval );

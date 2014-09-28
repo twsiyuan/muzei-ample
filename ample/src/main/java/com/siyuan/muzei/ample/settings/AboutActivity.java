@@ -30,7 +30,7 @@ import com.siyuan.muzei.ample.R;
 /**
  * About Activity
  */
-public class AmpleAboutActivity extends FragmentActivity {
+public class AboutActivity extends FragmentActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

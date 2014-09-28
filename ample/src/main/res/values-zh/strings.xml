@@ -49,11 +49,12 @@
 	<string name="settings_source_from">來源</string>
 
 	<string name="settings_filter_none_use">不使用</string>
+
 	<string name="settings_filters">篩選器</string>
 	<string name="settings_filter_color">顏色</string>
 	<string name="settings_filter_locale">地區</string>
 	<string name="settings_filter_series">系列</string>
-	<string name="settings_filter_cosplayer">Cosplayer</string>
+	<string name="settings_filter_user">用戶</string>
 	<string name="settings_filter_keyword">關鍵字</string>
 	<string name="settings_filter_clear">清除設定</string>
 	<string name="settings_filter_clear_summary">清除所有篩選器的設定</string>
@@ -61,7 +62,9 @@
 	<!-- Refresh Interval-->
 	<string name="interval_never">永不</string>
 	<string name="interval_10m">每 10 分鐘</string>
+	<string name="interval_15m">每 15 分鐘</string>
 	<string name="interval_30m">每 30 分鐘</string>
+	<string name="interval_45m">每 45 分鐘</string>
 	<string name="interval_1h">每小時</string>
 	<string name="interval_2h">每 2 小時</string>
 	<string name="interval_3h">每 3 小時</string>
@@ -86,7 +89,7 @@
 	<string name="interval_30d">每 30 天</string>
 
 	<!--Source-->
-	<string name="source_from_main">自訂內容</string>
-	<string name="source_from_newest">最新內容</string>
+	<string name="source_from_main">主要</string>
+	<string name="source_from_newest">最新</string>
 
 </resources>
