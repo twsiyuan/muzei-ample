@@ -59,7 +59,7 @@ public class ArtSource extends RemoteMuzeiArtSourceEx {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		if(BuildConfig.DEBUG) {
+		if(!BuildConfig.DEBUG) {
 			setDescription(getString(R.string.source_description));
 		}else {
 			setDescription(getString(R.string.source_description) + " Debug Version");
@@ -91,8 +91,19 @@ public class ArtSource extends RemoteMuzeiArtSourceEx {
 		reschdule();
 	}
 
+	protected boolean checkTryUpdate( int reason ){
+		if( reason == UPDATE_REASON_SCHEDULED ){
+			if( PreferenceUtils.getRefreshInterval( this ) < 0 )
+				return false;
+		}
+	return true;
+}
+
 	@Override
 	protected void onTryUpdate(int reason) throws RetryException {
+
+		if( !checkTryUpdate( reason ) )
+			return;
 
 		// Get next
 		DataService.ImageData nextImage;

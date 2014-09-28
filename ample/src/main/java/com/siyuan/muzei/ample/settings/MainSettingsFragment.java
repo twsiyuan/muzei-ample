@@ -120,10 +120,28 @@ public class MainSettingsFragment extends PreferenceFragment{
 	}
 
 	private void setupRefreshTime(){
-		final SimpleDateFormat sdf = new SimpleDateFormat( getString( R.string.settings_refresh_summary ) );
-		final Preference nextRefresh = findPreference( getString( R.string.prefs_refresh_next ) );
-		final Date nextRefreshDate = PreferenceUtils.getNextRefreshTime(this.getActivity().getApplicationContext());
-		nextRefresh.setSummary( sdf.format( nextRefreshDate ) );
+
+		final ListPreference interval = (ListPreference)findPreference( getString( R.string.prefs_refresh_interval ) );
+		final Preference nextRefresh = findPreference( getString( R.string.prefs_refresh_next ));
+
+		Preference.OnPreferenceChangeListener listener = new Preference.OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object o) {
+				long value = Long.parseLong(( String)o );
+				boolean enabled = value >= 0;
+				if( enabled ){
+					final SimpleDateFormat sdf = new SimpleDateFormat( getString( R.string.settings_refresh_summary ) );
+					final Date nextRefreshDate = PreferenceUtils.getNextRefreshTime(getActivity().getApplicationContext());
+					nextRefresh.setSummary( sdf.format( nextRefreshDate ) );
+				}else{
+					nextRefresh.setSummary( getString( R.string.interval_never ) );
+				}
+				return true;
+			}
+		};
+
+		interval.setOnPreferenceChangeListener(listener);
+		listener.onPreferenceChange(interval, interval.getValue());
 	}
 
 }

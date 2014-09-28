@@ -49,3 +49,7 @@ Released on August 12, 2014. Initial release.
 ### Version 1.1.1
 
 Add user and keyword filters
+
+### Version 1.1.2
+
+Fix some bugs
