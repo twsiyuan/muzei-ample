@@ -42,14 +42,18 @@ Released on August 12, 2014. Initial release.
 
 ### Version 1.1.0
 
-1. Add custom content filters
-2. Change download folder to Downloads/Ample
-3. Add settings item in Muzei menu
+1. Added custom content filters
+2. Changed download folder to Downloads/Ample
+3. Added settings item in Muzei menu
 
 ### Version 1.1.1
 
-Add user and keyword filters
+Added user and keyword filters
 
 ### Version 1.1.2
 
-Fix some bugs
+Fixed some bugs
+
+### Version 1.1.3
+
+Fixed no images bug

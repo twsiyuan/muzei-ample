@@ -64,5 +64,22 @@
 
 	</PreferenceCategory>
 
+	<PreferenceCategory
+		android:title="Debug"
+		android:persistent="false"
+	    android:key="@string/prefs_debug_category"
+	    android:shouldDisableView="true"
+	    android:enabled="false"
+		>
+
+		<Preference
+			android:key="@string/prefs_debug_info"
+			android:persistent="false"
+			android:title="Debug Info"
+		    android:shouldDisableView="true"
+		    android:enabled="false"
+			/>
+
+	</PreferenceCategory>
 
 </PreferenceScreen>

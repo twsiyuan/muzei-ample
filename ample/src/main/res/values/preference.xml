@@ -50,5 +50,7 @@
 	<string name="prefs_filter_keyword">filter_keyword</string>
 	<string name="prefs_filter_keyword_default"></string>
 
+	<string name="prefs_debug_category">debug_category</string>
+	<string name="prefs_debug_info">debug_info</string>
 
 </resources>

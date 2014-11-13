@@ -20,8 +20,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
 
+import com.siyuan.muzei.ample.BuildConfig;
 import com.siyuan.muzei.ample.utils.PreferenceUtils;
 import com.siyuan.muzei.ample.data.DataService;
 import com.siyuan.muzei.ample.R;
@@ -45,6 +48,7 @@ public class MainSettingsFragment extends PreferenceFragment{
 		setupFiltersEnabled();
 		setupFiltersSummary();
 		setupFiltersClear();
+		setupDebugInfo();
 	}
 
 	public void refresh(){
@@ -84,6 +88,24 @@ public class MainSettingsFragment extends PreferenceFragment{
 
 	private void setupFiltersClear(){
 
+	}
+
+	private void setupDebugInfo(){
+		PreferenceCategory cat = (PreferenceCategory)findPreference( getString( R.string.prefs_debug_category) );
+
+		if(BuildConfig.DEBUG){
+			Preference info = (Preference)findPreference( getString( R.string.prefs_debug_info) );
+
+			cat.setEnabled( true );
+			info.setEnabled( true );
+
+			String debugInfo = "";
+			debugInfo += "QueryThumbnailsMaxPageCount: " + PreferenceUtils.getLastQueryThumbnailsMaxPageCount( getActivity() ) + "\n";
+
+			info.setSummary( debugInfo );
+		}else{
+			getPreferenceScreen().removePreference( cat );
+		}
 	}
 
 	private void setupFiltersSummary(){

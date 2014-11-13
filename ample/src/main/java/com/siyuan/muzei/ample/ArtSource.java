@@ -162,11 +162,15 @@ public class ArtSource extends RemoteMuzeiArtSourceEx {
 		final String currentArgsEncode = "s" + source + "," + args;
 		final Random random = new Random();
 		final int countPerPage = source == DataService.THUMBNAIL_SOURCE_NEWEST? DataService.THUMBNAIL_NEWEST_LIST_COUNT : DataService.THUMBNAIL_CONTENT_LIST_COUNT;
-		int maxPageCount = (int)Math.ceil( PreferenceUtils.getTopCosplays(this) / countPerPage);
+		final int maxTryPageCount = (int)Math.ceil( PreferenceUtils.getTopCosplays(this) / countPerPage);
+		int maxPageCount = maxTryPageCount;
 
 		if( PreferenceUtils.getLastQueryThumbnailsArgs( this ).equals( currentArgsEncode ) ){
 			maxPageCount = Math.min( maxPageCount, PreferenceUtils.getLastQueryThumbnailsMaxPageCount( this ) );
 		}
+
+		maxPageCount = Math.max( maxPageCount, 1 );
+
 		List<DataService.Thumbnail> thumbnails = null;
 
 		// Get thumbnails from random page
@@ -187,6 +191,7 @@ public class ArtSource extends RemoteMuzeiArtSourceEx {
 					break;
 				}
 			}else {
+				maxPageCount = Math.min( maxTryPageCount, maxPageCount + 1 );    // try others in next update
 				break;
 			}
 		}
